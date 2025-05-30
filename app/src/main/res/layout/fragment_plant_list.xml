@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Statische Einträge bleiben immer da -->
+        <TextView
+            android:id="@+id/plant1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Monstera Deliciosa"
+            android:textSize="18sp"
+            android:paddingTop="8dp"
+            android:drawableEnd="@drawable/arrow"
+            android:drawablePadding="8dp"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/plant2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ficus Lyrata"
+            android:textSize="18sp"
+            android:paddingTop="8dp"
+            android:drawableEnd="@drawable/arrow"
+            android:drawablePadding="8dp"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/plant3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Orchidee"
+            android:textSize="18sp"
+            android:paddingTop="8dp"
+            android:drawableEnd="@drawable/arrow"
+            android:drawablePadding="8dp"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <!-- Dynamischer Container: nur hier fügen wir neue Pflanzen hinzu -->
+        <LinearLayout
+            android:id="@+id/container_dynamic_plants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            />
+
+    </LinearLayout>
+</ScrollView>

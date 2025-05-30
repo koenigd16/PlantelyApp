@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Pflanzenname -->
+        <TextView
+            android:id="@+id/plantName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pflanzenname"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <!-- Pflanzenbild -->
+        <ImageView
+            android:id="@+id/plantImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/monstera"
+            android:contentDescription="Pflanzenbild"
+            android:layout_marginTop="16dp" />
+
+        <!-- Beschreibung unter dem Bild -->
+        <TextView
+            android:id="@+id/plantDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Beschreibungstext"
+            android:textSize="16sp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp" />
+
+        <!-- Nächster Gieß-Text -->
+        <TextView
+            android:id="@+id/nextWatering"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gießen in X Tagen"
+            android:paddingTop="8dp"
+            android:textSize="16sp" />
+
+        <!-- Horizontal: Label, Zahl & Speichern-Button nebeneinander -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="8dp">
+
+            <!-- Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Intervall (Tage):"
+                android:textSize="16sp" />
+
+            <!-- Zahlen-Eingabe -->
+            <EditText
+                android:id="@+id/editWateringInterval"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:ems="3"
+                android:text="7"
+                android:padding="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Speichern-Button -->
+            <Button
+                android:id="@+id/buttonSaveInterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speichern" />
+        </LinearLayout>
+
+        <!-- Switch für automatische Erinnerung -->
+        <Switch
+            android:id="@+id/switchReminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Automatische Erinnerung"
+            android:paddingTop="16dp" />
+
+        <!-- Pflanze löschen -->
+        <Button
+            android:id="@+id/buttonDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pflanze löschen"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/red"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</ScrollView>

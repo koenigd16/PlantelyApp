@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/plantImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/monstera"
+        android:contentDescription="Pflanzenbild" />
+
+    <TextView
+        android:id="@+id/nextWatering"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gießen in 2 Tagen"
+        android:paddingTop="8dp"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/buttonTips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pflege-Tipps" />
+
+    <!-- Hier muss der Button mit exakt dieser ID stehen: -->
+    <Button
+        android:id="@+id/buttonReminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Erinnerung setzen"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>
