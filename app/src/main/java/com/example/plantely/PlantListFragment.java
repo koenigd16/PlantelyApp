@@ -1,96 +1,99 @@
+// java/com/example/plantely/PlantListFragment.java
 package com.example.plantely;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import java.util.HashSet;
-import java.util.Set;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Anzeige für die Liste der Pflanzen in der Hauptanzeige
+ * Zeigt alle Pflanzen in einer nach Suchbegriff und Kategorie gefilterten Liste und navigiert zur Detailansicht.
  */
 
-
 public class PlantListFragment extends Fragment {
-    private LinearLayout dynamicContainer;
+    private Spinner spinnerFilter;
+    private EditText searchEdit;
+    private RecyclerView recyclerView;
+    private PlantListAdapter adapter;
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup parent,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_plant_list, parent, false);
+        View root = inflater.inflate(R.layout.fragment_plant_list, parent, false);
 
-        // Statische Klick-Handler
-        view.findViewById(R.id.plant1).setOnClickListener(v -> {
+        spinnerFilter = root.findViewById(R.id.spinnerFilterCategory);
+        searchEdit    = root.findViewById(R.id.searchEditText);
+        recyclerView  = root.findViewById(R.id.recyclerViewPlants);
+
+        // Dynamisch aus CategoryRepository laden
+        List<String> cats = CategoryRepository
+                .getInstance(requireContext())
+                .getCategories();
+        ArrayAdapter<String> catAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                cats
+        );
+        catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFilter.setAdapter(catAdapter);
+
+        adapter = new PlantListAdapter(plant -> {
             Bundle b = new Bundle();
-            b.putString("plantName", "Monstera Deliciosa");
-            Navigation.findNavController(v)
+            b.putString("plantName", plant.getName());
+            Navigation.findNavController(root)
                     .navigate(R.id.action_list_to_detail, b);
         });
-        view.findViewById(R.id.plant2).setOnClickListener(v -> {
-            Bundle b = new Bundle();
-            b.putString("plantName", "Ficus Lyrata");
-            Navigation.findNavController(v)
-                    .navigate(R.id.action_list_to_detail, b);
-        });
-        view.findViewById(R.id.plant3).setOnClickListener(v -> {
-            Bundle b = new Bundle();
-            b.putString("plantName", "Orchidee");
-            Navigation.findNavController(v)
-                    .navigate(R.id.action_list_to_detail, b);
-        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.setAdapter(adapter);
 
-        dynamicContainer = view.findViewById(R.id.container_dynamic_plants);
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        refreshDynamicPlants();
-    }
-
-    private void refreshDynamicPlants() {
-        // alten Inhalt entfernen, um Duplikate zu vermeiden
-        dynamicContainer.removeAllViews();
-
-        for (Plant plant : PlantRepository.getInstance().getPlants()) {
-            // Namens-Check: nur solche, die nicht statisch sind
-            String name = plant.getName();
-            if (name.equals("Monstera Deliciosa") ||
-                    name.equals("Ficus Lyrata") ||
-                    name.equals("Orchidee")) {
-                continue;
+        spinnerFilter.setOnItemSelectedListener(new SimpleItemSelectedListener() {
+            @Override
+            public void onItemSelected(int position) {
+                filterAndShow();
             }
+        });
+        searchEdit.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s,int a,int b,int c){}
+            @Override public void onTextChanged(CharSequence s,int a,int b,int c){}
+            @Override public void afterTextChanged(Editable s) {
+                filterAndShow();
+            }
+        });
 
-            TextView tv = new TextView(getContext());
-            tv.setLayoutParams(new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            tv.setText(name);
-            tv.setTextSize(18f);
-            tv.setPadding(0,16,0,16);
-            tv.setCompoundDrawablesWithIntrinsicBounds(
-                    0, 0, R.drawable.arrow, 0);
-            tv.setCompoundDrawablePadding(8);
-            tv.setClickable(true);
+        return root;
+    }
 
-            tv.setOnClickListener(v -> {
-                Bundle b = new Bundle();
-                b.putString("plantName", name);
-                Navigation.findNavController(v)
-                        .navigate(R.id.action_list_to_detail, b);
-            });
+    @Override public void onResume() {
+        super.onResume();
+        filterAndShow();
+    }
 
-            dynamicContainer.addView(tv);
-        }
+    private void filterAndShow() {
+        String q   = searchEdit.getText().toString().toLowerCase().trim();
+        String cat = spinnerFilter.getSelectedItem().toString();
+        List<Plant> all = PlantRepository
+                .getInstance(requireContext())
+                .getPlants();
+        List<Plant> filtered = all.stream()
+                .filter(p -> p.getName().toLowerCase().contains(q))
+                .filter(p -> cat.equals("Alle") || p.getCategory().equals(cat))
+                .collect(Collectors.toList());
+        adapter.submitList(filtered);
     }
 }

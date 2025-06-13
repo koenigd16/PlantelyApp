@@ -6,9 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 /**
- * Einstellungen
+ * Hostet das Preference-Fragment für App-Einstellungen inklusive Kategorie-Verwaltung.
  */
-
 
 
 public class SettingsActivity extends AppCompatActivity {

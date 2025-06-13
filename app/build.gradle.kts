@@ -41,7 +41,7 @@ android {
 
 dependencies {
     implementation ("androidx.preference:preference:1.2.0")
-
+    implementation ("com.google.code.gson:gson:2.8.6")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     // → lösche ganz die folgende Zeile:
@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

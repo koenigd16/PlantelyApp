@@ -16,7 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 
 /**
- * Kommentare eintragen
+ * Startet die Navigation zwischen den Fragments und zeigt die App-Toolbar an.
  */
 
 

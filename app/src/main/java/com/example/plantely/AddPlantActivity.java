@@ -4,17 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * Activity um Pflanzen abzuspeichern
+ * Ermöglicht das Anlegen einer neuen Pflanze mit Namen, Foto und Beschreibung.
  */
-
-
 
 public class AddPlantActivity extends AppCompatActivity {
     private static final int REQUEST_PHOTO = 100;
@@ -26,26 +26,43 @@ public class AddPlantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plant);
 
-        imageView = findViewById(R.id.imageViewPlantPhoto);
-        Button selectPhoto = findViewById(R.id.buttonSelectPhoto);
-        EditText nameEdit = findViewById(R.id.editTextPlantName);
-        EditText descEdit = findViewById(R.id.editTextPlantDescription);
-        Button saveButton = findViewById(R.id.buttonSavePlant);
+        // Views
+        EditText nameEdit       = findViewById(R.id.editTextPlantName);
+        Spinner catSpinner      = findViewById(R.id.spinnerCategory);
+        imageView               = findViewById(R.id.imageViewPlantPhoto);
+        Button selectPhotoBtn   = findViewById(R.id.buttonSelectPhoto);
+        EditText descEdit       = findViewById(R.id.editTextPlantDescription);
+        Button saveButton       = findViewById(R.id.buttonSavePlant);
 
-        selectPhoto.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent, REQUEST_PHOTO);
+        // Spinner mit Kategorien füllen
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.plant_categories,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        catSpinner.setAdapter(adapter);
+
+        // Foto auswählen
+        selectPhotoBtn.setOnClickListener(v -> {
+            Intent pick = new Intent(Intent.ACTION_PICK);
+            pick.setType("image/*");
+            startActivityForResult(pick, REQUEST_PHOTO);
         });
 
-        // Speichern-Button fügt neue Pflanze ins Repository ein
+        // Speichern
         saveButton.setOnClickListener(v -> {
-            String name = nameEdit.getText().toString();
-            String desc = descEdit.getText().toString();
-            // imageUri wurde in onActivityResult gesetzt
-            Plant plant = new Plant(name, desc, imageUri);
-            PlantRepository.getInstance().addPlant(plant);
-            // Zurück zur Übersicht
+            String name     = nameEdit.getText().toString().trim();
+            String desc     = descEdit.getText().toString().trim();
+            String category = catSpinner.getSelectedItem().toString();
+
+            // Ins Repository einfügen
+            PlantRepository.getInstance(getApplicationContext()).addPlant(
+                    new Plant(name, desc, imageUri, category)
+            );
+
+            // Zurück zur Liste
+            setResult(Activity.RESULT_OK);
             finish();
         });
     }
@@ -54,7 +71,7 @@ public class AddPlantActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
-            imageUri = data.getData();  // hier speichern
+            imageUri = data.getData();
             imageView.setImageURI(imageUri);
         }
     }

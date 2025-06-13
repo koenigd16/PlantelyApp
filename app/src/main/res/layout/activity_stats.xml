@@ -1,51 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Toolbar mit Titel -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarStats"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/green"
-        app:title="Statistik"
-        app:titleTextColor="@android:color/white" />
+        android:title="Statistik"
+        android:titleTextColor="@android:color/white"/>
 
-    <!-- Inhalte -->
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
+    <TextView
+        android:id="@+id/textTotalPlants"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:text="Gesamtpflanzen: 0"/>
 
-        <TextView
-            android:id="@+id/textTotalPlants"
+    <TextView
+        android:id="@+id/textToWater"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingBottom="8dp"
+        android:textSize="16sp"
+        android:text="Pflanzen zum Gießen: 0"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/containerToWater"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gesamtpflanzen: 0"
-            android:textSize="18sp"
-            android:paddingBottom="8dp"/>
+            android:padding="16dp"/>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/textToWater"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Pflanzen zum Gießen: 0"
-            android:textSize="18sp"
-            android:paddingBottom="16dp"/>
+    <!-- Kategorie-Statistik -->
+    <TextView
+        android:id="@+id/textCategoryHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:textSize="16sp"
+        android:text="Pflanzen pro Kategorie:"/>
 
-        <Button
-            android:id="@+id/buttonClearAll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Alle Pflanzen löschen"
-            android:backgroundTint="@color/red"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="24dp"/>
+    <LinearLayout
+        android:id="@+id/containerCategoryStats"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"/>
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/buttonMarkAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Alle als gegossen markieren"
+        android:layout_margin="16dp"/>
+
+    <Button
+        android:id="@+id/buttonClearAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Alle Einträge löschen"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"/>
 </LinearLayout>

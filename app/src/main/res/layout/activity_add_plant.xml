@@ -5,41 +5,68 @@
     android:padding="16dp">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
+        <!-- Pflanzenname -->
         <EditText
             android:id="@+id/editTextPlantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Pflanzenname" />
+            android:hint="Pflanzenname"
+            android:inputType="textPersonName"
+            android:padding="8dp"/>
 
+
+        <!-- Foto -->
         <ImageView
             android:id="@+id/imageViewPlantPhoto"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:src="@drawable/monstera"
-            android:contentDescription="Pflanzenfoto" />
+            android:contentDescription="Pflanzenfoto"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="12dp"/>
 
         <Button
             android:id="@+id/buttonSelectPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Foto auswählen" />
+            android:text="Foto auswählen"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Kategorie-Auswahl -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kategorie:"
+            android:paddingTop="12dp"/>
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"/>
+        <!-- Beschreibung -->
 
         <EditText
             android:id="@+id/editTextPlantDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Beschreibung" />
+            android:hint="Beschreibung"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:gravity="top"
+            android:padding="8dp"
+            android:layout_marginTop="12dp"/>
 
+        <!-- Speichern -->
         <Button
             android:id="@+id/buttonSavePlant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Speichern"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"/>
 
     </LinearLayout>
 </ScrollView>

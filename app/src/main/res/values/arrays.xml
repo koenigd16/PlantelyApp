@@ -8,4 +8,14 @@
         <item>light</item>
         <item>dark</item>
     </string-array>
+
+    <string-array name="plant_categories">
+        <item>Alle</item>
+        <item>Zimmerpflanze</item>
+        <item>Kräuter</item>
+        <item>Blühpflanze</item>
+        <item>Außenpflanzen</item>
+    </string-array>
+
+
 </resources>
