@@ -19,6 +19,8 @@ import java.util.Map;
  * Visualisiert Statistiken (Gesamtzahl, zu gießende Pflanzen, Pflanzen pro Kategorie) und bietet Mark-All/Reset-Funktionen.
  */
 
+
+
 public class StatsActivity extends AppCompatActivity {
     private TextView totalView, toWaterView, categoryHeader;
     private LinearLayout containerToWater, containerCategoryStats;

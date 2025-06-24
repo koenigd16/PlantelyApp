@@ -8,9 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+
 /**
  * Anzeige für den Reminder, wenn Pflanzen gegossen werden müssen
  */
+
 
 
 public class ReminderDialogFragment extends DialogFragment {
