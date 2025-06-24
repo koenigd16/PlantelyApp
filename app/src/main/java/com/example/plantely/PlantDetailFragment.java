@@ -26,9 +26,9 @@ import java.text.DateFormat;
 import java.util.Date;
 
 /**
- * Zeigt Detailinfos einer Pflanze an und erlaubt Bearbeitung von Kategorie, Alter, Intervall, Erinnerung sowie Löschen.
+ * Zeigt Detailinfos einer Pflanze an und erlaubt Bearbeitung von Kategorie, Alter,
+ * Intervall, Erinnerung sowie Löschen. Lädt das persistierte Bild-URI erneut.
  */
-
 public class PlantDetailFragment extends Fragment {
     private Plant currentPlant;
 
@@ -38,17 +38,17 @@ public class PlantDetailFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_plant_detail, container, false);
 
-        TextView nameView        = v.findViewById(R.id.plantName);
-        Spinner categorySpinner  = v.findViewById(R.id.spinnerCategory);
-        EditText editAge         = v.findViewById(R.id.editPlantAge);
-        ImageView imageView      = v.findViewById(R.id.plantImage);
-        TextView descView        = v.findViewById(R.id.plantDescription);
-        TextView nextWatering    = v.findViewById(R.id.nextWatering);
-        EditText intervalEdit    = v.findViewById(R.id.editWateringInterval);
-        Button saveIntervalBtn   = v.findViewById(R.id.buttonSaveInterval);
-        Switch reminderSwitch    = v.findViewById(R.id.switchReminder);
-        TextView dateAddedView   = v.findViewById(R.id.textDateAdded);
-        Button deleteBtn         = v.findViewById(R.id.buttonDelete);
+        TextView nameView       = v.findViewById(R.id.plantName);
+        Spinner categorySpinner = v.findViewById(R.id.spinnerCategory);
+        EditText editAge        = v.findViewById(R.id.editPlantAge);
+        ImageView imageView     = v.findViewById(R.id.plantImage);
+        TextView descView       = v.findViewById(R.id.plantDescription);
+        TextView nextWatering   = v.findViewById(R.id.nextWatering);
+        EditText intervalEdit   = v.findViewById(R.id.editWateringInterval);
+        Button saveIntervalBtn  = v.findViewById(R.id.buttonSaveInterval);
+        Switch reminderSwitch   = v.findViewById(R.id.switchReminder);
+        TextView dateAddedView  = v.findViewById(R.id.textDateAdded);
+        Button deleteBtn        = v.findViewById(R.id.buttonDelete);
 
         // 1) Argument auslesen
         Bundle args = getArguments();
@@ -60,7 +60,7 @@ public class PlantDetailFragment extends Fragment {
                     .getPlantByName(name);
         }
 
-        // 2) Spinner füllen & Auswahl
+        // 2) Spinner füllen & Auswahl setzen
         ArrayAdapter<CharSequence> catAdapter = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.plant_categories,
@@ -69,32 +69,32 @@ public class PlantDetailFragment extends Fragment {
         catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(catAdapter);
 
-        // 3) Fülle Daten, inkl. Alter und Erstellungsdatum
+        // 3) Pflanze laden
         if (currentPlant != null) {
+            // Kategorie
             int pos = catAdapter.getPosition(currentPlant.getCategory());
             if (pos >= 0) categorySpinner.setSelection(pos);
 
             // Alter
             editAge.setText(String.valueOf(currentPlant.getAgeYears()));
 
-            // Bild
+            // Bild erneut laden
             Uri photo = currentPlant.getPhotoUri();
-            if (photo != null) imageView.setImageURI(photo);
+            if (photo != null) {
+                imageView.setImageURI(photo);
+            }
 
             // Beschreibung
             String desc = currentPlant.getDescription();
-            descView.setText(!TextUtils.isEmpty(desc)
-                    ? desc : "Keine Beschreibung.");
+            descView.setText(!TextUtils.isEmpty(desc) ? desc : "Keine Beschreibung.");
 
-            // Intervall & Erinnerung
-            intervalEdit.setText(
-                    String.valueOf(currentPlant.getWateringIntervalDays()));
-            nextWatering.setText(
-                    "Gießen in " + currentPlant.getWateringIntervalDays() + " Tagen");
-            reminderSwitch.setChecked(
-                    currentPlant.isReminderActive());
+            // Intervall & Switch
+            int days = currentPlant.getWateringIntervalDays();
+            intervalEdit.setText(String.valueOf(days));
+            nextWatering.setText("Gießen in " + days + " Tagen");
+            reminderSwitch.setChecked(currentPlant.isReminderActive());
 
-            // Erstellungsdatum formatieren
+            // Erstellungsdatum
             String date = DateFormat.getDateInstance().format(
                     new Date(currentPlant.getCreatedAt()));
             dateAddedView.setText("Hinzugefügt am: " + date);
@@ -131,10 +131,8 @@ public class PlantDetailFragment extends Fragment {
             if (currentPlant == null) return;
             String s = intervalEdit.getText().toString();
             if (!TextUtils.isEmpty(s)) {
-                currentPlant.setWateringIntervalDays(
-                        Integer.parseInt(s));
-                nextWatering.setText(
-                        "Gießen in " + s + " Tagen");
+                currentPlant.setWateringIntervalDays(Integer.parseInt(s));
+                nextWatering.setText("Gießen in " + s + " Tagen");
                 PlantRepository.getInstance(requireContext()).saveChanges();
             }
         });
